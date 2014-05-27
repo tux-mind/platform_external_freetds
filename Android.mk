@@ -1,18 +1,19 @@
 LOCAL_PATH := $(call my-dir)
 
-#original path: src/replacements/.libs/libreplacements.a
+#original path: src/dblib/.libs/libsybdb.a
 include $(CLEAR_VARS)
 
 LOCAL_CFLAGS:= -DHAVE_CONFIG_H -DUNIXODBC -D_REENTRANT -D_THREAD_SAFE \
--DNDEBUG=1 
+-DNDEBUG=1 -DOPENSSL_NO_DEPRECATED
 
 # fixed flags
 LOCAL_CFLAGS+= -ffunction-sections -fdata-sections
 
 LOCAL_C_INCLUDES:= \
-	$(LOCAL_PATH)/src/replacements\
+	$(LOCAL_PATH)/src/dblib\
 	$(LOCAL_PATH)/include\
 	$(LOCAL_PATH)/generated/android/include\
+	$(LOCAL_PATH)/generated/android/src/tds\
 	external/libiconv/include\
 	external/openssl/include
 LOCAL_SRC_FILES:= \
@@ -24,29 +25,7 @@ LOCAL_SRC_FILES:= \
 	src/replacements/win_mutex.c\
 	src/replacements/win_cond.c\
 	src/replacements/getaddrinfo.c\
-	src/replacements/readpassphrase.c
-LOCAL_MODULE := libreplacements
-
-include $(BUILD_STATIC_LIBRARY)
-
-
-#original path: src/tds/.libs/libtds.a
-include $(CLEAR_VARS)
-
-LOCAL_CFLAGS:= -DHAVE_CONFIG_H -DUNIXODBC -D_REENTRANT -D_THREAD_SAFE \
--DNDEBUG=1 
-
-# fixed flags
-LOCAL_CFLAGS+= -ffunction-sections -fdata-sections
-
-LOCAL_C_INCLUDES:= \
-	$(LOCAL_PATH)/src/tds\
-	$(LOCAL_PATH)/include\
-	$(LOCAL_PATH)/generated/android/src/tds\
-	$(LOCAL_PATH)/generated/android/include\
-	external/libiconv/include\
-	external/openssl/include
-LOCAL_SRC_FILES:= \
+	src/replacements/readpassphrase.c\
 	src/tds/mem.c\
 	src/tds/token.c\
 	src/tds/util.c\
@@ -75,56 +54,7 @@ LOCAL_SRC_FILES:= \
 	src/tds/md5.c\
 	src/tds/des.c\
 	src/tds/gssapi.c\
-	src/tds/hmac_md5.c
-LOCAL_MODULE := libtds
-
-include $(BUILD_STATIC_LIBRARY)
-
-
-#original path: src/ctlib/.libs/libct.a
-include $(CLEAR_VARS)
-
-LOCAL_CFLAGS:= -DHAVE_CONFIG_H -DUNIXODBC -D_REENTRANT -D_THREAD_SAFE \
--DNDEBUG=1 
-
-# fixed flags
-LOCAL_CFLAGS+= -ffunction-sections -fdata-sections
-
-LOCAL_C_INCLUDES:= \
-	$(LOCAL_PATH)/src/ctlib\
-	$(LOCAL_PATH)/include\
-	$(LOCAL_PATH)/generated/android/include\
-	external/libiconv/include\
-	external/openssl/include
-LOCAL_SRC_FILES:= \
-	src/ctlib/ct.c\
-	src/ctlib/cs.c\
-	src/ctlib/blk.c\
-	src/ctlib/ctutil.c
-LOCAL_STATIC_LIBRARIES:= \
-	libtds\
-	libreplacements
-LOCAL_MODULE := libct
-
-include $(BUILD_STATIC_LIBRARY)
-
-
-#original path: src/dblib/.libs/libsybdb.a
-include $(CLEAR_VARS)
-
-LOCAL_CFLAGS:= -DHAVE_CONFIG_H -DUNIXODBC -D_REENTRANT -D_THREAD_SAFE \
--DNDEBUG=1 
-
-# fixed flags
-LOCAL_CFLAGS+= -ffunction-sections -fdata-sections
-
-LOCAL_C_INCLUDES:= \
-	$(LOCAL_PATH)/src/dblib\
-	$(LOCAL_PATH)/include\
-	$(LOCAL_PATH)/generated/android/include\
-	external/libiconv/include\
-	external/openssl/include
-LOCAL_SRC_FILES:= \
+	src/tds/hmac_md5.c\
 	src/dblib/dblib.c\
 	src/dblib/dbutil.c\
 	src/dblib/rpc.c\
@@ -132,46 +62,11 @@ LOCAL_SRC_FILES:= \
 	src/dblib/xact.c\
 	src/dblib/dbpivot.c
 LOCAL_STATIC_LIBRARIES:= \
-	libtds\
-	libreplacements
+	libiconv
+LOCAL_SHARED_LIBRARIES:= \
+	libssl\
+	libcrypto
 LOCAL_MODULE := libsybdb
-
-include $(BUILD_STATIC_LIBRARY)
-
-
-#original path: src/odbc/.libs/libtdsodbc.a
-include $(CLEAR_VARS)
-
-LOCAL_CFLAGS:= -DHAVE_CONFIG_H -DUNIXODBC -D_REENTRANT -D_THREAD_SAFE \
--DNDEBUG=1 
-
-# fixed flags
-LOCAL_CFLAGS+= -ffunction-sections -fdata-sections
-
-LOCAL_C_INCLUDES:= \
-	$(LOCAL_PATH)/src/odbc\
-	$(LOCAL_PATH)/include\
-	$(LOCAL_PATH)/generated/android/src/odbc\
-	$(LOCAL_PATH)/generated/android/include\
-	external/unixODBC/include\
-	external/libiconv/include\
-	external/openssl/include
-LOCAL_SRC_FILES:= \
-	src/odbc/odbc.c\
-	src/odbc/connectparams.c\
-	src/odbc/convert_tds2sql.c\
-	src/odbc/descriptor.c\
-	src/odbc/prepare_query.c\
-	src/odbc/odbc_util.c\
-	src/odbc/native.c\
-	src/odbc/sql2tds.c\
-	src/odbc/error.c\
-	src/odbc/odbc_checks.c\
-	src/odbc/sqlwchar.c
-LOCAL_STATIC_LIBRARIES:= \
-	libtds\
-	libreplacements
-LOCAL_MODULE := libtdsodbc
 
 include $(BUILD_STATIC_LIBRARY)
 
