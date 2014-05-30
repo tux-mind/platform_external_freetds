@@ -1459,7 +1459,7 @@ static BIO_METHOD tds_method =
 static SSL_CTX *
 tds_init_openssl(void)
 {
-	SSL_METHOD *meth;
+	const SSL_METHOD *meth;
 
 	if (!tls_initialized) {
 		tds_mutex_lock(&tls_mutex);
