@@ -63,8 +63,8 @@ LOCAL_SRC_FILES:= \
 	src/dblib/dbpivot.c
 LOCAL_STATIC_LIBRARIES:= \
 	libiconv\
-	libcrypto_static\
-	libssl
+	libssl_static\
+	libcrypto_static
 LOCAL_MODULE := libsybdb
 
 include $(BUILD_STATIC_LIBRARY)
